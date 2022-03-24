@@ -1,0 +1,502 @@
+{
+	"info": {
+		"_postman_id": "887ede55-7bb8-45de-b8e2-7ecc86ca043a",
+		"name": "Recruiting app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "recruiting",
+			"item": [
+				{
+					"name": "get all jobs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjFmMjY4NDY5ZDVhZjAwMDZhNTdmODI1IiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTA4NiwiZXhwIjoxNjQ4MTM4Mjg2LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmpvYnMiLCJkZWxldGU6c2Vla2VycyIsImdldDpqb2JzIiwiZ2V0OnNlZWtlcnMiLCJwYXRjaDpqb2JzIiwicG9zdDpqb2JzIiwicG9zdDpzZWVrZXJzIl19.VemCfGqfdUtl7XHTVB1bVJlS7EGJgfchO6l1MluJrBnIZb7MgxWqBekUmVJiQXbnC1qT2iTswCqYUZLYWTBPh8kEi5tZfH-blp82QYYA86ZQ6tJ1ubTEER7PKnZfX5tATvwOkOYTHpQOvQP6vqRwinYJVOdNd7DFoJg11GcRNsHnZaG1lekn0NKVRQ1an8CuRVvuLdtUBKh8HU92RhYIOZQ8bBnBDGj51rd3Ae-d3cMvZmirXYl2xQpOL2oQFiALCW7ct8bhmFb7rza1FPW9s5srExRQ3bchTdypmYlp3w3h_-9pD_J1pBC4ZRpXouwSO8JFBft1U7YzFK4aYHTklA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/jobs?page=1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get jobs by the field",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjFmMjY4NDY5ZDVhZjAwMDZhNTdmODI1IiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTA4NiwiZXhwIjoxNjQ4MTM4Mjg2LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmpvYnMiLCJkZWxldGU6c2Vla2VycyIsImdldDpqb2JzIiwiZ2V0OnNlZWtlcnMiLCJwYXRjaDpqb2JzIiwicG9zdDpqb2JzIiwicG9zdDpzZWVrZXJzIl19.VemCfGqfdUtl7XHTVB1bVJlS7EGJgfchO6l1MluJrBnIZb7MgxWqBekUmVJiQXbnC1qT2iTswCqYUZLYWTBPh8kEi5tZfH-blp82QYYA86ZQ6tJ1ubTEER7PKnZfX5tATvwOkOYTHpQOvQP6vqRwinYJVOdNd7DFoJg11GcRNsHnZaG1lekn0NKVRQ1an8CuRVvuLdtUBKh8HU92RhYIOZQ8bBnBDGj51rd3Ae-d3cMvZmirXYl2xQpOL2oQFiALCW7ct8bhmFb7rza1FPW9s5srExRQ3bchTdypmYlp3w3h_-9pD_J1pBC4ZRpXouwSO8JFBft1U7YzFK4aYHTklA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/jobs/Software",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"jobs",
+								"Software"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all seekers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjFmMjY4NDY5ZDVhZjAwMDZhNTdmODI1IiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTA4NiwiZXhwIjoxNjQ4MTM4Mjg2LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmpvYnMiLCJkZWxldGU6c2Vla2VycyIsImdldDpqb2JzIiwiZ2V0OnNlZWtlcnMiLCJwYXRjaDpqb2JzIiwicG9zdDpqb2JzIiwicG9zdDpzZWVrZXJzIl19.VemCfGqfdUtl7XHTVB1bVJlS7EGJgfchO6l1MluJrBnIZb7MgxWqBekUmVJiQXbnC1qT2iTswCqYUZLYWTBPh8kEi5tZfH-blp82QYYA86ZQ6tJ1ubTEER7PKnZfX5tATvwOkOYTHpQOvQP6vqRwinYJVOdNd7DFoJg11GcRNsHnZaG1lekn0NKVRQ1an8CuRVvuLdtUBKh8HU92RhYIOZQ8bBnBDGj51rd3Ae-d3cMvZmirXYl2xQpOL2oQFiALCW7ct8bhmFb7rza1FPW9s5srExRQ3bchTdypmYlp3w3h_-9pD_J1pBC4ZRpXouwSO8JFBft1U7YzFK4aYHTklA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/seekers",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"seekers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get seekers by the years_ex",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjFmMjY4NDY5ZDVhZjAwMDZhNTdmODI1IiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTA4NiwiZXhwIjoxNjQ4MTM4Mjg2LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmpvYnMiLCJkZWxldGU6c2Vla2VycyIsImdldDpqb2JzIiwiZ2V0OnNlZWtlcnMiLCJwYXRjaDpqb2JzIiwicG9zdDpqb2JzIiwicG9zdDpzZWVrZXJzIl19.VemCfGqfdUtl7XHTVB1bVJlS7EGJgfchO6l1MluJrBnIZb7MgxWqBekUmVJiQXbnC1qT2iTswCqYUZLYWTBPh8kEi5tZfH-blp82QYYA86ZQ6tJ1ubTEER7PKnZfX5tATvwOkOYTHpQOvQP6vqRwinYJVOdNd7DFoJg11GcRNsHnZaG1lekn0NKVRQ1an8CuRVvuLdtUBKh8HU92RhYIOZQ8bBnBDGj51rd3Ae-d3cMvZmirXYl2xQpOL2oQFiALCW7ct8bhmFb7rza1FPW9s5srExRQ3bchTdypmYlp3w3h_-9pD_J1pBC4ZRpXouwSO8JFBft1U7YzFK4aYHTklA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/seekers/years_ex",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"seekers",
+								"years_ex"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post jobs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjFmMjY4NDY5ZDVhZjAwMDZhNTdmODI1IiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTA4NiwiZXhwIjoxNjQ4MTM4Mjg2LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmpvYnMiLCJkZWxldGU6c2Vla2VycyIsImdldDpqb2JzIiwiZ2V0OnNlZWtlcnMiLCJwYXRjaDpqb2JzIiwicG9zdDpqb2JzIiwicG9zdDpzZWVrZXJzIl19.VemCfGqfdUtl7XHTVB1bVJlS7EGJgfchO6l1MluJrBnIZb7MgxWqBekUmVJiQXbnC1qT2iTswCqYUZLYWTBPh8kEi5tZfH-blp82QYYA86ZQ6tJ1ubTEER7PKnZfX5tATvwOkOYTHpQOvQP6vqRwinYJVOdNd7DFoJg11GcRNsHnZaG1lekn0NKVRQ1an8CuRVvuLdtUBKh8HU92RhYIOZQ8bBnBDGj51rd3Ae-d3cMvZmirXYl2xQpOL2oQFiALCW7ct8bhmFb7rza1FPW9s5srExRQ3bchTdypmYlp3w3h_-9pD_J1pBC4ZRpXouwSO8JFBft1U7YzFK4aYHTklA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/jobs",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"jobs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post seeker",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjFmMjY4NDY5ZDVhZjAwMDZhNTdmODI1IiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTA4NiwiZXhwIjoxNjQ4MTM4Mjg2LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmpvYnMiLCJkZWxldGU6c2Vla2VycyIsImdldDpqb2JzIiwiZ2V0OnNlZWtlcnMiLCJwYXRjaDpqb2JzIiwicG9zdDpqb2JzIiwicG9zdDpzZWVrZXJzIl19.VemCfGqfdUtl7XHTVB1bVJlS7EGJgfchO6l1MluJrBnIZb7MgxWqBekUmVJiQXbnC1qT2iTswCqYUZLYWTBPh8kEi5tZfH-blp82QYYA86ZQ6tJ1ubTEER7PKnZfX5tATvwOkOYTHpQOvQP6vqRwinYJVOdNd7DFoJg11GcRNsHnZaG1lekn0NKVRQ1an8CuRVvuLdtUBKh8HU92RhYIOZQ8bBnBDGj51rd3Ae-d3cMvZmirXYl2xQpOL2oQFiALCW7ct8bhmFb7rza1FPW9s5srExRQ3bchTdypmYlp3w3h_-9pD_J1pBC4ZRpXouwSO8JFBft1U7YzFK4aYHTklA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/seekers",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"seekers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patch jobs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjFmMjY4NDY5ZDVhZjAwMDZhNTdmODI1IiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTA4NiwiZXhwIjoxNjQ4MTM4Mjg2LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmpvYnMiLCJkZWxldGU6c2Vla2VycyIsImdldDpqb2JzIiwiZ2V0OnNlZWtlcnMiLCJwYXRjaDpqb2JzIiwicG9zdDpqb2JzIiwicG9zdDpzZWVrZXJzIl19.VemCfGqfdUtl7XHTVB1bVJlS7EGJgfchO6l1MluJrBnIZb7MgxWqBekUmVJiQXbnC1qT2iTswCqYUZLYWTBPh8kEi5tZfH-blp82QYYA86ZQ6tJ1ubTEER7PKnZfX5tATvwOkOYTHpQOvQP6vqRwinYJVOdNd7DFoJg11GcRNsHnZaG1lekn0NKVRQ1an8CuRVvuLdtUBKh8HU92RhYIOZQ8bBnBDGj51rd3Ae-d3cMvZmirXYl2xQpOL2oQFiALCW7ct8bhmFb7rza1FPW9s5srExRQ3bchTdypmYlp3w3h_-9pD_J1pBC4ZRpXouwSO8JFBft1U7YzFK4aYHTklA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/jobs/<int:id>",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"jobs",
+								"<int:id>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patch seeker",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/seekers",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"seekers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete job",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjFmMjY4NDY5ZDVhZjAwMDZhNTdmODI1IiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTA4NiwiZXhwIjoxNjQ4MTM4Mjg2LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmpvYnMiLCJkZWxldGU6c2Vla2VycyIsImdldDpqb2JzIiwiZ2V0OnNlZWtlcnMiLCJwYXRjaDpqb2JzIiwicG9zdDpqb2JzIiwicG9zdDpzZWVrZXJzIl19.VemCfGqfdUtl7XHTVB1bVJlS7EGJgfchO6l1MluJrBnIZb7MgxWqBekUmVJiQXbnC1qT2iTswCqYUZLYWTBPh8kEi5tZfH-blp82QYYA86ZQ6tJ1ubTEER7PKnZfX5tATvwOkOYTHpQOvQP6vqRwinYJVOdNd7DFoJg11GcRNsHnZaG1lekn0NKVRQ1an8CuRVvuLdtUBKh8HU92RhYIOZQ8bBnBDGj51rd3Ae-d3cMvZmirXYl2xQpOL2oQFiALCW7ct8bhmFb7rza1FPW9s5srExRQ3bchTdypmYlp3w3h_-9pD_J1pBC4ZRpXouwSO8JFBft1U7YzFK4aYHTklA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/jobs/<int:id>",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"jobs",
+								"<int:id>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete seeker",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjFmMjY4NDY5ZDVhZjAwMDZhNTdmODI1IiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTA4NiwiZXhwIjoxNjQ4MTM4Mjg2LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmpvYnMiLCJkZWxldGU6c2Vla2VycyIsImdldDpqb2JzIiwiZ2V0OnNlZWtlcnMiLCJwYXRjaDpqb2JzIiwicG9zdDpqb2JzIiwicG9zdDpzZWVrZXJzIl19.VemCfGqfdUtl7XHTVB1bVJlS7EGJgfchO6l1MluJrBnIZb7MgxWqBekUmVJiQXbnC1qT2iTswCqYUZLYWTBPh8kEi5tZfH-blp82QYYA86ZQ6tJ1ubTEER7PKnZfX5tATvwOkOYTHpQOvQP6vqRwinYJVOdNd7DFoJg11GcRNsHnZaG1lekn0NKVRQ1an8CuRVvuLdtUBKh8HU92RhYIOZQ8bBnBDGj51rd3Ae-d3cMvZmirXYl2xQpOL2oQFiALCW7ct8bhmFb7rza1FPW9s5srExRQ3bchTdypmYlp3w3h_-9pD_J1pBC4ZRpXouwSO8JFBft1U7YzFK4aYHTklA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/seekers/<int:id>",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"seekers",
+								"<int:id>"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fsndtz.us.auth0.com/authorize?audience=recruit&response_type=token&client_id=2GqoWKTv8hClT5ldk2ppMLwZsisB6uIX&redirect_uri=https://127.0.0.1:8080/callback",
+							"protocol": "https",
+							"host": [
+								"fsndtz",
+								"us",
+								"auth0",
+								"com"
+							],
+							"path": [
+								"authorize"
+							],
+							"query": [
+								{
+									"key": "audience",
+									"value": "recruit"
+								},
+								{
+									"key": "response_type",
+									"value": "token"
+								},
+								{
+									"key": "client_id",
+									"value": "2GqoWKTv8hClT5ldk2ppMLwZsisB6uIX"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "https://127.0.0.1:8080/callback"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get profile info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fsndtz.us.auth0.com/v2/logout?\n  client_id=2GqoWKTv8hClT5ldk2ppMLwZsisB6uIX&\n  returnTo=https://127.0.0.1:8080/logout",
+							"protocol": "https",
+							"host": [
+								"fsndtz",
+								"us",
+								"auth0",
+								"com"
+							],
+							"path": [
+								"v2",
+								"logout"
+							],
+							"query": [
+								{
+									"key": "\n  client_id",
+									"value": "2GqoWKTv8hClT5ldk2ppMLwZsisB6uIX"
+								},
+								{
+									"key": "\n  returnTo",
+									"value": "https://127.0.0.1:8080/logout"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "jwt urls",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": [
+				{
+					"name": "jwt urls",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fsndtz.us.auth0.com/.well-known/jwks.json",
+							"protocol": "https",
+							"host": [
+								"fsndtz",
+								"us",
+								"auth0",
+								"com"
+							],
+							"path": [
+								".well-known",
+								"jwks.json"
+							]
+						}
+					},
+					"_postman_previewlanguage": "",
+					"header": [
+						{}
+					],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": ""
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "recruiter_token",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjFmMjY4NDY5ZDVhZjAwMDZhNTdmODI1IiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTA4NiwiZXhwIjoxNjQ4MTM4Mjg2LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmpvYnMiLCJkZWxldGU6c2Vla2VycyIsImdldDpqb2JzIiwiZ2V0OnNlZWtlcnMiLCJwYXRjaDpqb2JzIiwicG9zdDpqb2JzIiwicG9zdDpzZWVrZXJzIl19.VemCfGqfdUtl7XHTVB1bVJlS7EGJgfchO6l1MluJrBnIZb7MgxWqBekUmVJiQXbnC1qT2iTswCqYUZLYWTBPh8kEi5tZfH-blp82QYYA86ZQ6tJ1ubTEER7PKnZfX5tATvwOkOYTHpQOvQP6vqRwinYJVOdNd7DFoJg11GcRNsHnZaG1lekn0NKVRQ1an8CuRVvuLdtUBKh8HU92RhYIOZQ8bBnBDGj51rd3Ae-d3cMvZmirXYl2xQpOL2oQFiALCW7ct8bhmFb7rza1FPW9s5srExRQ3bchTdypmYlp3w3h_-9pD_J1pBC4ZRpXouwSO8JFBft1U7YzFK4aYHTklA",
+			"type": "string"
+		},
+		{
+			"key": "assistant_token",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjIwZWE4NzBjNDFmZjAwMDcyODRkZTdiIiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTMyNywiZXhwIjoxNjQ4MTM4NTI3LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZ2V0OmpvYnMiLCJnZXQ6c2Vla2VycyIsInBhdGNoOmpvYnMiLCJwb3N0OmpvYnMiXX0.CuXJeWDOrgK_n1eGAbnBZDw-DcgUpOq5EQN8nJm464zp7BLK9hK0rHtFgsiRBjtnpQXNee-vCUI17TvqSxkqOiEB7Qk4D6S_hoeZ4qHDkqhIAvB23VJ2IzsDpmQKJucSz0yZdrL3XLDzYBM_WoUK3upy7FnT1eXlxHlNyt9WnBPfywKwVvogiVjdbzrIHSvJJfOHDE7KRfoLW9cQctIsTImL4xznJpaHvfCOV7VwaL9lhBh-k7dqx1AUcMXKfiRwO7hxW1WJWNa50mWre5qdvhCCLnq5yeMh3sy0vwPhWY0NjsDplQKzckqnnEGgJ3jet8eEX4hr3aNay3r1NYilWw",
+			"type": "string"
+		},
+		{
+			"key": "seeker_token",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjIwZTgwZTU5ZmYyYzYwMDY4ZWY5MzZkIiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTU2NiwiZXhwIjoxNjQ4MTM4NzY2LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOnNlZWtlcnMiLCJnZXQ6am9icyIsInBhdGNoOnNlZWtlcnMiLCJwb3N0OnNlZWtlcnMiXX0.CGDWZA7BRIsoXLuW3AzlTt68jQBKBFQnHqRm7hVd8hcA0iNXBAfQiKmbgy227W3SNo82rkTHF5BD7lWrGys5K7gYKdELxZ67GqlxjJWCPLZ01RqrO0er1SKp5YmTRLJhXl1_UNI8FkUHELtzHz2DSuHJnKyeHS3F0W0d78TbUN_-ng0QqUuB4yDNuIITdMVVCZ20OKEDlAb_umMGGV_WHXvXzfkJp2-RpFM1PqR2rrXiIj3LSPdiT7e4Z5VlFLYl5SqA0l2_SMmgIIOz7LoDIweLx1sjbVpgWmZrza2abRcOcZ1ZRYpjqkJU-l0Sdf8u5FPlzyPs1SQz3XI3NQ8BAQ",
+			"type": "string"
+		}
+	]
+}

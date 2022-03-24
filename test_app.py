@@ -4,34 +4,34 @@ import os
 import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
-from models import Jobs, Seeker, setup_db, db
+from models import Jobs, Seekers, setup_db, db
 from app import create_app
 # TODO:
-# make sure you create a database named opportunitytest in psql
-database_name = "opportunitytest"
+# make sure you create a database named recruitingtest in psql
+database_name = "recruitingtest"
 database_path = 'postgresql://postgres:43150@localhost:5432/{}'.format(
     database_name)
 
-recruiter_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjFmMjY4NDY5ZDVhZjAwMDZhNTdmODI1IiwiYXVkIjoiZ3JlZXRpbmciLCJpYXQiOjE2NDc3ODYxOTAsImV4cCI6MTY0Nzc5MzM5MCwiYXpwIjoiNmhzMVQ4VHVUZGUyTmJZNTk4RWE1dUJEYmZJUzU2ZWIiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImdldDpncmVldGluZ3MiLCJwb3N0OmdyZWV0aW5ncyJdfQ.BJnMXuYtcSkChG8Le3TZAJBAlIS_3aj5MNT-WbApCtaiRa2XFpCfztiKoP-waiO2fbmGIM8xXj0_-HlCfnlw89CHr3JqSB9sRGgfL1Y_XYPSVYz_VvxczYLUxqVryv2ekYTDRJYmIXQ4H59JOpUyKxrytZN4cuRNLdlLIbGqa034QjKMJ3JF1ZQf5UaGxhsn9i03RnNacOU907DbHRTyQLiUSsJmcDrNvGYmVjCIMFE71r9r_niMkQSXQrt7VTVlBRfNwUeOknHkRVW6NoClngIXRcO0rsScoH9mhIz9R9cJWExOphcFcL439fayBHSrUyqMZD9vDdGkRVJ1JboyCQ"
-assistant_token = ""
-seeker_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjIwZWE4NzBjNDFmZjAwMDcyODRkZTdiIiwiYXVkIjoiZ3JlZXRpbmciLCJpYXQiOjE2NDc3ODY4MDUsImV4cCI6MTY0Nzc5NDAwNSwiYXpwIjoiNmhzMVQ4VHVUZGUyTmJZNTk4RWE1dUJEYmZJUzU2ZWIiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImdldDpncmVldGluZ3MiXX0.cNLW8wdVrh__09WKXTmC0fn2sWKooHjhVXXo56pA55y6Luu7oon7qbkF1x3PSlRvK3Qbr_NnFamjmTNFPJVM-8gmm7tHKJ-Ep3wUeaek5cOqz6NSIMz2N4QCmnCcZz2yiEaFd9CYSemY6rH_UhxxiA67mvNlZgqdJqAWTHCuwuICvL_m0zmxUk2jN2QnVHZrmojmQBWYYQ42EL0CUGTdzoiqLOV5-47PIYbmnLN5Zm-PFD7Ra9x-n-juk5Uy2I6t6ByVRFO1uxW8K4Q8zQQAKAzF15N8jysr0BpKyj2yJTbZJvDwB7F8DLjU-mBx_VvO2851kFksyBUF6hOdN39KTg"
+recruiter_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjFmMjY4NDY5ZDVhZjAwMDZhNTdmODI1IiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTA4NiwiZXhwIjoxNjQ4MTM4Mjg2LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmpvYnMiLCJkZWxldGU6c2Vla2VycyIsImdldDpqb2JzIiwiZ2V0OnNlZWtlcnMiLCJwYXRjaDpqb2JzIiwicG9zdDpqb2JzIiwicG9zdDpzZWVrZXJzIl19.VemCfGqfdUtl7XHTVB1bVJlS7EGJgfchO6l1MluJrBnIZb7MgxWqBekUmVJiQXbnC1qT2iTswCqYUZLYWTBPh8kEi5tZfH-blp82QYYA86ZQ6tJ1ubTEER7PKnZfX5tATvwOkOYTHpQOvQP6vqRwinYJVOdNd7DFoJg11GcRNsHnZaG1lekn0NKVRQ1an8CuRVvuLdtUBKh8HU92RhYIOZQ8bBnBDGj51rd3Ae-d3cMvZmirXYl2xQpOL2oQFiALCW7ct8bhmFb7rza1FPW9s5srExRQ3bchTdypmYlp3w3h_-9pD_J1pBC4ZRpXouwSO8JFBft1U7YzFK4aYHTklA"
+assistant_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjIwZWE4NzBjNDFmZjAwMDcyODRkZTdiIiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTMyNywiZXhwIjoxNjQ4MTM4NTI3LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZ2V0OmpvYnMiLCJnZXQ6c2Vla2VycyIsInBhdGNoOmpvYnMiLCJwb3N0OmpvYnMiXX0.CuXJeWDOrgK_n1eGAbnBZDw-DcgUpOq5EQN8nJm464zp7BLK9hK0rHtFgsiRBjtnpQXNee-vCUI17TvqSxkqOiEB7Qk4D6S_hoeZ4qHDkqhIAvB23VJ2IzsDpmQKJucSz0yZdrL3XLDzYBM_WoUK3upy7FnT1eXlxHlNyt9WnBPfywKwVvogiVjdbzrIHSvJJfOHDE7KRfoLW9cQctIsTImL4xznJpaHvfCOV7VwaL9lhBh-k7dqx1AUcMXKfiRwO7hxW1WJWNa50mWre5qdvhCCLnq5yeMh3sy0vwPhWY0NjsDplQKzckqnnEGgJ3jet8eEX4hr3aNay3r1NYilWw"
+seeker_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjIwZTgwZTU5ZmYyYzYwMDY4ZWY5MzZkIiwiYXVkIjoicmVjcnVpdCIsImlhdCI6MTY0ODEzMTU2NiwiZXhwIjoxNjQ4MTM4NzY2LCJhenAiOiIyR3FvV0tUdjhoQ2xUNWxkazJwcE1Md1pzaXNCNnVJWCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOnNlZWtlcnMiLCJnZXQ6am9icyIsInBhdGNoOnNlZWtlcnMiLCJwb3N0OnNlZWtlcnMiXX0.CGDWZA7BRIsoXLuW3AzlTt68jQBKBFQnHqRm7hVd8hcA0iNXBAfQiKmbgy227W3SNo82rkTHF5BD7lWrGys5K7gYKdELxZ67GqlxjJWCPLZ01RqrO0er1SKp5YmTRLJhXl1_UNI8FkUHELtzHz2DSuHJnKyeHS3F0W0d78TbUN_-ng0QqUuB4yDNuIITdMVVCZ20OKEDlAb_umMGGV_WHXvXzfkJp2-RpFM1PqR2rrXiIj3LSPdiT7e4Z5VlFLYl5SqA0l2_SMmgIIOz7LoDIweLx1sjbVpgWmZrza2abRcOcZ1ZRYpjqkJU-l0Sdf8u5FPlzyPs1SQz3XI3NQ8BAQ"
 
 
-opportunities = [{'field': 'Software', 'title': 'Web Developmer'},
+jobs = [{'field': 'Software', 'title': 'Web Developmer'},
              {'field': 'Teaching', 'title': 'Dutch Language Teacher'},
              {'field': 'Managing', 'title': 'Program Manager'},
              {'field': 'Driving', 'title': 'Track Driver'},
              {'field': 'Medical', 'title': 'Sergury Doctor'},
              {'field': 'Engineer', 'title': 'Civil Engineer'},
-             {'field': 'Cleanning', 'title': 'Cleaner'}]
+             {'field': 'Cleaning', 'title': 'Cleaner'}]
 
 seekers = [{'seeker_name': 'John', 'job_title': 'Software Developer', 'year_ex': '5', 'email': 'john@gmail.com'},
            {'seeker_name': 'Soso', 'job_title': 'English Teacher', 'year_ex': '3', 'email': 'soso@gmail.com'},
            {'seeker_name': 'Maria', 'job_title': 'Coach', 'year_ex': '4', 'email': 'maria@gmail.com'},
            {'seeker_name': 'Tio', 'job_title': 'Developer', 'year_ex': '7', 'email': 'tio@gmail.com'}]
 
-class opportunityTestCase(unittest.TestCase):
-    """This class represents the trivia test case"""
+class recruitingTestCase(unittest.TestCase):
+    """This class represents the test case"""
 
     def setUp(self):
         """Define test variables and initialize app.
@@ -58,8 +58,8 @@ class opportunityTestCase(unittest.TestCase):
 
         with self.app.app_context():
             # insert the categories
-            for opportunity in opportunities:
-                cat = opportunity(**opportunity)
+            for job in jobs:
+                cat = Jobs(**job)
                 self.db.session.add(cat)
                 self.db.session.commit()
 
@@ -71,92 +71,174 @@ class opportunityTestCase(unittest.TestCase):
         #     self.db.drop_all()
         #     self.db.session.commit()
         pass
+    
+    def test_get_paginated_jobs(self):
+        res = self.client().get('/jobs')
+        data = json.loads(res.data)
 
-    # testing the opportunities
-    def test_get_opportunities_ok(self):
-        # print('hello')
-        headers = {
-            'Authorization': 'Bearer {}'.format(seeker_token)
-        }
-        print('hello test_get_opportunities_ok')
-
-        res = self.client().get('/opportunities', headers=headers)  # res is of a type stream
-        # print(res.data) # res.data is a of type string of characters
-        # data is a of type string of characters
-        new_greeetings = json.loads(res.data)
-        # print(new_greeetings)
         self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['total_jobs'])
+        self.assertTrue(len(data['jobs']))
+        self.assertTrue(len(data['fields']))
 
-    # test getting one opportunity
-    def test_one_opportunity_ok(self):
-        print('hello test_one_opportunity')
-        headers = {
-            'Authorization': 'Bearer {}'.format(seeker_token)
-        }
-        res = self.client().get(f'/opportunities/en', headers=headers)
-        # print("res " , res)
-        new_opportunity= json.loads(res.data)
-        # print("new_opportunity",new_opportunity)
-        self.assertEqual(res.status_code, 200)
+    def test_404_sent_requesting_jobs_beyond_valid_page(self):
+        res = self.client().get('/jobs?page=1000')
+        data = json.loads(res.data)
 
-        self.assertEqual(new_opportunity["opportunity"]
-                         ['opportunity'], opportunities[0]["opportunity"])
-
-    # test getting one opportunity
-
-    def test_one_opportunity_401(self):
-        print('hello test_one_opportunity_404')
-        res = self.client().get(f'/opportunities/en')
-        # print("res " , res)
-        new_opportunity= json.loads(res.data)
-        # print("new_opportunity",new_opportunity)
-        self.assertEqual(res.status_code, 401)
-
-    def test_one_opportunity_404(self):
-        print('hello test_one_opportunity_404')
-        headers = {
-            'Authorization': 'Bearer {}'.format(seeker_token)
-        }
-        res = self.client().get(f'/opportunities/notfound', headers=headers)
-        # print("res " , res)
-        new_opportunity= json.loads(res.data)
-        # print("new_opportunity",new_opportunity)
         self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'resource not found')
 
-        # self.assertEqual(new_opportunity["opportunity"]['opportunity'], opportunities[0]["opportunity"])
+    def test_get_paginated_seekers(self):
+        res = self.client().get('/seekers')
+        data = json.loads(res.data)
 
-    # test getting one opportunity
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['total_seekers'])
+        self.assertTrue(len(data['seeker_name']))
+        self.assertTrue(len(data['job_title']))
+        self.assertTrue(len(data['years_ex']))
+        self.assertTrue(len(data['email']))
 
-    def test_create_opportunity_ok(self):
-        print('hello test_create_opportunity_ok')
+    def test_404_sent_requesting_seekers_beyond_valid_page(self):
+        res = self.client().get('/seekers?page=1000')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'resource not found')
+    
+    # testing the jobs
+    def test_get_jobs_ok(self):
+        # print('hello')
         headers = {
             'Authorization': 'Bearer {}'.format(recruiter_token)
         }
-        res = self.client().post(f'/opportunities', headers=headers,
-                                 json=dict(field="french", opportunity="bonjour"))
+        print('hello test_get_jobs_ok')
+
+        res = self.client().get('/jobs', headers=headers)  # res is of a type stream
+        # print(res.data) # res.data is a of type string of characters
+        # data is a of type string of characters
+        new_jobs = json.loads(res.data)
+        # print(new_jobs)
+        self.assertEqual(res.status_code, 200)
+
+    # test getting one job
+    def test_one_job_ok(self):
+        print('hello test_one_job')
+        headers = {
+            'Authorization': 'Bearer {}'.format(recruiter_token)
+        }
+        res = self.client().get(f'/jobs/Software', headers=headers)
+        # print("res " , res)
+        new_job= json.loads(res.data)
+        # print("new_job",new_job)
+        self.assertEqual(res.status_code, 200)
+
+        self.assertEqual(new_job["job"]
+                         ['job'], jobs[0]["job"])
+
+    # test getting one job
+
+    def test_one_job_401(self):
+        print('hello test_one_job_404')
+        res = self.client().get(f'/jobs/Software')
+        # print("res " , res)
+        new_job= json.loads(res.data)
+        # print("new_job",new_job)
+        self.assertEqual(res.status_code, 401)
+
+    def test_one_job_404(self):
+        print('hello test_one_job_404')
+        headers = {
+            'Authorization': 'Bearer {}'.format(recruiter_token)
+        }
+        res = self.client().get(f'/jobs/notfound', headers=headers)
+        # print("res " , res)
+        new_job= json.loads(res.data)
+        # print("new_job",new_job)
+        self.assertEqual(res.status_code, 404)
+
+        # self.assertEqual(new_job["job"]['job'], jobs[0]["job"])
+
+    # test getting one job
+
+    def test_create_job_ok(self):
+        print('hello test_create_job_ok')
+        headers = {
+            'Authorization': 'Bearer {}'.format(recruiter_token)
+        }
+        res = self.client().post(f'/jobs', headers=headers,
+                                 json=dict(field="Cleaning", job="Cleaner"))
         print("res ", res)
         print("res.data ", res.data)
-        new_opportunity= json.loads(res.data)
-        # print("new_opportunity",new_opportunity)
+        new_job= json.loads(res.data)
+        # print("new_job",new_job)
         self.assertEqual(res.status_code, 201)
 
-    def test_create_opportunity_403(self):
-        print('hello test_create_opportunity_40')
+    def test_create_job_403(self):
+        print('hello test_create_job_403')
         headers = {
-            'Authorization': 'Bearer {}'.format(seeker_token)
+            'Authorization': 'Bearer {}'.format(recruiter_token)
         }
-        res = self.client().post(f'/opportunities', headers=headers,
-                                 json=dict(field="trainer", opportunity="prject management"))
+        res = self.client().post(f'/jobs', headers=headers,
+                                 json=dict(field="Trainer", job="Project Management"))
 
-        # print("new_opportunity",new_opportunity)
+        # print("new_job",new_job)
         self.assertEqual(res.status_code, 403)
 
-    # TODO: implement a test case to test getting one beautiful opportunity
-    def test_beautiful_opportunity(self):
-        print('hello test_beautiful_opportunity')
+    # TODO: implement a test case to test getting one smart job
+    def test_smart_job(self):
+        print('hello test_smart_job')
 
         self.assertEqual(200, 200)
+    # test getting seekers
+    def test_get_seekers(self):
+        res = self.client().get('/seekers')
+        data = json.loads(res.data)
 
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(len(data['seeker_name']))
+        self.assertTrue(len(data['job_title']))
+        self.assertTrue(len(data['years_ex']))
+        self.assertTrue(len(data['email']))
+
+    def test_404_sent_requesting_non_existing_seeker(self):
+        res = self.client().get('/seekers/9999')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'resource not found')
+
+    def test_create_seeker_ok(self):
+        print('hello test_create_seeker_ok')
+        headers = {
+            'Authorization': 'Bearer {}'.format(recruiter_token)
+        }
+        res = self.client().post(f'/seekers', headers=headers,
+                                 json=dict(seeker_name="John", job_title="Painter", 
+                                           years_ex="3", email="John@111.com"))
+        print("res ", res)
+        print("res.data ", res.data)
+        new_seeker= json.loads(res.data)
+        # print("new_seeker",new_seeker)
+        self.assertEqual(res.status_code, 201)
+
+    def test_create_seeker_403(self):
+        print('hello test_create_seeker_403')
+        headers = {
+            'Authorization': 'Bearer {}'.format(recruiter_token)
+        }
+        res = self.client().post(f'/seekers', headers=headers,
+                                 json=dict(seeker_name="John", job_title="Painter", 
+                                           years_ex="3", email="John@111.com"))
+
+        # print("new_seeker",new_seeker)
+        self.assertEqual(res.status_code, 403)
 
 # Make the tests conveniently executable
 if __name__ == "__main__":

@@ -2,6 +2,7 @@ import imp
 import os
 from flask import Flask, jsonify, request, abort
 from models import setup_db, Jobs, Seekers
+from auth import requires_auth
 import json
 from flask_cors import CORS
 #from auth import requires_auth
@@ -19,7 +20,7 @@ def create_app(test_config=None):
         motivated = os.environ['MOTIVATED']
         job = "Full-Stack Web developer"
         if motivated == 'true':
-            job = job + "This is an opportunity for you You are doing great, good luck with your search"
+            job = job + " This is an opportunity for you You are doing great, good luck with your search"
         return job
 
     @app.route('/', methods=['GET'])
@@ -28,7 +29,7 @@ def create_app(test_config=None):
 
     #TODO get all jobs in the rectuiting web app, and just display 10 jobs per page
     @app.route('/jobs', methods=['GET'])
-    #@requires_auth(["get:jobs"])
+    @requires_auth(["get:jobs"])
     def job_all(payload):
         page = request.args.get('page', 1, type=int)
         pagination = Jobs.query.paginate(
@@ -41,7 +42,7 @@ def create_app(test_config=None):
 
     #TODO get jobs by the field in the rectuiting web app
     @app.route('/jobs/<field>', methods=['GET'])
- #   @requires_auth(["get:jobs"])
+    @requires_auth(["get:jobs"])
     def job_one(payload, field):
         job = Jobs.query.filter_by(field=field).first()
         print(field)
@@ -52,7 +53,7 @@ def create_app(test_config=None):
     
     #TODO get the registered seekers in the rectuiting web app, and just display 10 seekers per page
     @app.route('/seekers', methods=['GET'])
-    #@requires_auth(["get:seekers"])
+    @requires_auth(["get:seekers"])
     def seeker_all(payload):
         page = request.args.get('page', 1, type=int)
         pagination = Seekers.query.paginate(
@@ -65,7 +66,7 @@ def create_app(test_config=None):
     
     #TODO get seekers by their years of experience in the rectuiting web app
     @app.route('/seekers/<years_ex>', methods=['GET'])
- #   @requires_auth(["get:seekers"])
+    @requires_auth(["get:seekers"])
     def seeker_one(payload, years_ex):
         seeker = Seekers.query.filter_by(years_ex=years_ex).first()
         print(years_ex)
@@ -76,7 +77,7 @@ def create_app(test_config=None):
     
     #TODO add a new job by its field in the rectuiting web app
     @app.route('/jobs', methods=['POST'])
-#    @requires_auth(["post:jobs"])
+    @requires_auth(["post:jobs"])
     def job_add(payload):
         info = request.get_json()
         if('field' not in info or 'job' not in info):
@@ -94,7 +95,7 @@ def create_app(test_config=None):
     
     #TODO add a new seeker to the rectuiting web app
     @app.route('/seekers', methods=['POST'])
-#    @requires_auth(["post:seekers"])
+    @requires_auth(["post:seekers"])
     def seeker_add(payload):
         info = request.get_json()
         if('id' not in info or 'seeker' not in info):
@@ -106,7 +107,7 @@ def create_app(test_config=None):
     
     #TODO update an existing job using its id
     @app.route('/jobs/<int:id>', methods=['PATCH'])
-#    @requires_auth('patch:jobs')
+    @requires_auth('patch:jobs')
     def update_job(payload, id):
     # Get the body
         req = request.get_json()
@@ -128,12 +129,12 @@ def create_app(test_config=None):
             job.update()
         except Exception:
                abort(400)
-    return jsonify({'success': True, 'jobs':'field'}), 200
+        return jsonify({'success': True, 'jobs':'field'}), 200
 
     #TODO update an existing seeker using the id and email
     @app.route('/seekers/<int:id>', methods=['PATCH'])
-#   @requires_auth('patch:seekers')
-    def update_job(payload, id):
+    @requires_auth('patch:seekers')
+    def update_seeker(payload, id):
     # Get the body
         req = request.get_json()
     # Get the Seekers with requested Id
@@ -149,16 +150,16 @@ def create_app(test_config=None):
                 seeker.id = req_id
             # check if the email is the one is updated
             if req_email:
-                seeker.email = json.dumps(req['seeker'])
+                seeker.email = json.dumps(req['email'])
             # update the drink
             seeker.update()
         except Exception:
                abort(400)
-    return jsonify({'success': True, 'seekers':'id'}), 200
+        return jsonify({'success': True, 'seekers':'email'}), 200
     
     # TODO: DELETE a job using a job id
     @app.route('/jobs/<int:id>', methods=['DELETE'])
-    #   @requires_auth('delete:jobs')
+    @requires_auth('delete:jobs')
     def delete_job(id):
         '''
         Handles DELETE requests for deleting an opportunity by id.
