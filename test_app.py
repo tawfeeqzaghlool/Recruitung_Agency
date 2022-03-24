@@ -4,26 +4,31 @@ import os
 import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
-from models import opportunity, setup_db, db
+from models import Jobs, Seeker, setup_db, db
 from app import create_app
 # TODO:
-# make sure you create a database named hello_test in psql
+# make sure you create a database named opportunitytest in psql
 database_name = "opportunitytest"
 database_path = 'postgresql://postgres:43150@localhost:5432/{}'.format(
     database_name)
 
-admin_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjFmMjY4NDY5ZDVhZjAwMDZhNTdmODI1IiwiYXVkIjoiZ3JlZXRpbmciLCJpYXQiOjE2NDc3ODYxOTAsImV4cCI6MTY0Nzc5MzM5MCwiYXpwIjoiNmhzMVQ4VHVUZGUyTmJZNTk4RWE1dUJEYmZJUzU2ZWIiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImdldDpncmVldGluZ3MiLCJwb3N0OmdyZWV0aW5ncyJdfQ.BJnMXuYtcSkChG8Le3TZAJBAlIS_3aj5MNT-WbApCtaiRa2XFpCfztiKoP-waiO2fbmGIM8xXj0_-HlCfnlw89CHr3JqSB9sRGgfL1Y_XYPSVYz_VvxczYLUxqVryv2ekYTDRJYmIXQ4H59JOpUyKxrytZN4cuRNLdlLIbGqa034QjKMJ3JF1ZQf5UaGxhsn9i03RnNacOU907DbHRTyQLiUSsJmcDrNvGYmVjCIMFE71r9r_niMkQSXQrt7VTVlBRfNwUeOknHkRVW6NoClngIXRcO0rsScoH9mhIz9R9cJWExOphcFcL439fayBHSrUyqMZD9vDdGkRVJ1JboyCQ"
-greeter_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjIwZWE4NzBjNDFmZjAwMDcyODRkZTdiIiwiYXVkIjoiZ3JlZXRpbmciLCJpYXQiOjE2NDc3ODY4MDUsImV4cCI6MTY0Nzc5NDAwNSwiYXpwIjoiNmhzMVQ4VHVUZGUyTmJZNTk4RWE1dUJEYmZJUzU2ZWIiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImdldDpncmVldGluZ3MiXX0.cNLW8wdVrh__09WKXTmC0fn2sWKooHjhVXXo56pA55y6Luu7oon7qbkF1x3PSlRvK3Qbr_NnFamjmTNFPJVM-8gmm7tHKJ-Ep3wUeaek5cOqz6NSIMz2N4QCmnCcZz2yiEaFd9CYSemY6rH_UhxxiA67mvNlZgqdJqAWTHCuwuICvL_m0zmxUk2jN2QnVHZrmojmQBWYYQ42EL0CUGTdzoiqLOV5-47PIYbmnLN5Zm-PFD7Ra9x-n-juk5Uy2I6t6ByVRFO1uxW8K4Q8zQQAKAzF15N8jysr0BpKyj2yJTbZJvDwB7F8DLjU-mBx_VvO2851kFksyBUF6hOdN39KTg"
+recruiter_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjFmMjY4NDY5ZDVhZjAwMDZhNTdmODI1IiwiYXVkIjoiZ3JlZXRpbmciLCJpYXQiOjE2NDc3ODYxOTAsImV4cCI6MTY0Nzc5MzM5MCwiYXpwIjoiNmhzMVQ4VHVUZGUyTmJZNTk4RWE1dUJEYmZJUzU2ZWIiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImdldDpncmVldGluZ3MiLCJwb3N0OmdyZWV0aW5ncyJdfQ.BJnMXuYtcSkChG8Le3TZAJBAlIS_3aj5MNT-WbApCtaiRa2XFpCfztiKoP-waiO2fbmGIM8xXj0_-HlCfnlw89CHr3JqSB9sRGgfL1Y_XYPSVYz_VvxczYLUxqVryv2ekYTDRJYmIXQ4H59JOpUyKxrytZN4cuRNLdlLIbGqa034QjKMJ3JF1ZQf5UaGxhsn9i03RnNacOU907DbHRTyQLiUSsJmcDrNvGYmVjCIMFE71r9r_niMkQSXQrt7VTVlBRfNwUeOknHkRVW6NoClngIXRcO0rsScoH9mhIz9R9cJWExOphcFcL439fayBHSrUyqMZD9vDdGkRVJ1JboyCQ"
+assistant_token = ""
+seeker_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVKeFdPd3Z0eG5rQlhudHIxbGc5OCJ9.eyJpc3MiOiJodHRwczovL2ZzbmR0ei51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjIwZWE4NzBjNDFmZjAwMDcyODRkZTdiIiwiYXVkIjoiZ3JlZXRpbmciLCJpYXQiOjE2NDc3ODY4MDUsImV4cCI6MTY0Nzc5NDAwNSwiYXpwIjoiNmhzMVQ4VHVUZGUyTmJZNTk4RWE1dUJEYmZJUzU2ZWIiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImdldDpncmVldGluZ3MiXX0.cNLW8wdVrh__09WKXTmC0fn2sWKooHjhVXXo56pA55y6Luu7oon7qbkF1x3PSlRvK3Qbr_NnFamjmTNFPJVM-8gmm7tHKJ-Ep3wUeaek5cOqz6NSIMz2N4QCmnCcZz2yiEaFd9CYSemY6rH_UhxxiA67mvNlZgqdJqAWTHCuwuICvL_m0zmxUk2jN2QnVHZrmojmQBWYYQ42EL0CUGTdzoiqLOV5-47PIYbmnLN5Zm-PFD7Ra9x-n-juk5Uy2I6t6ByVRFO1uxW8K4Q8zQQAKAzF15N8jysr0BpKyj2yJTbZJvDwB7F8DLjU-mBx_VvO2851kFksyBUF6hOdN39KTg"
 
 
-opportunities = [{'field': 'software', 'opportunity': 'hello'},
-             {'field': 'es', 'opportunity': 'Hola'},
-             {'field': 'ar', 'opportunity': 'مرحبا'},
-             {'field': 'ru', 'opportunity': 'Привет'},
-             {'field': 'fi', 'opportunity': 'Hei'},
-             {'field': 'he', 'opportunity': 'שלום'},
-             {'field': 'ja', 'opportunity': 'こんにちは'}]
+opportunities = [{'field': 'Software', 'title': 'Web Developmer'},
+             {'field': 'Teaching', 'title': 'Dutch Language Teacher'},
+             {'field': 'Managing', 'title': 'Program Manager'},
+             {'field': 'Driving', 'title': 'Track Driver'},
+             {'field': 'Medical', 'title': 'Sergury Doctor'},
+             {'field': 'Engineer', 'title': 'Civil Engineer'},
+             {'field': 'Cleanning', 'title': 'Cleaner'}]
 
+seekers = [{'seeker_name': 'John', 'job_title': 'Software Developer', 'year_ex': '5', 'email': 'john@gmail.com'},
+           {'seeker_name': 'Soso', 'job_title': 'English Teacher', 'year_ex': '3', 'email': 'soso@gmail.com'},
+           {'seeker_name': 'Maria', 'job_title': 'Coach', 'year_ex': '4', 'email': 'maria@gmail.com'},
+           {'seeker_name': 'Tio', 'job_title': 'Developer', 'year_ex': '7', 'email': 'tio@gmail.com'}]
 
 class opportunityTestCase(unittest.TestCase):
     """This class represents the trivia test case"""
@@ -53,7 +58,7 @@ class opportunityTestCase(unittest.TestCase):
 
         with self.app.app_context():
             # insert the categories
-            for opportunityin opportunities:
+            for opportunity in opportunities:
                 cat = opportunity(**opportunity)
                 self.db.session.add(cat)
                 self.db.session.commit()
@@ -71,7 +76,7 @@ class opportunityTestCase(unittest.TestCase):
     def test_get_opportunities_ok(self):
         # print('hello')
         headers = {
-            'Authorization': 'Bearer {}'.format(greeter_token)
+            'Authorization': 'Bearer {}'.format(seeker_token)
         }
         print('hello test_get_opportunities_ok')
 
@@ -86,7 +91,7 @@ class opportunityTestCase(unittest.TestCase):
     def test_one_opportunity_ok(self):
         print('hello test_one_opportunity')
         headers = {
-            'Authorization': 'Bearer {}'.format(greeter_token)
+            'Authorization': 'Bearer {}'.format(seeker_token)
         }
         res = self.client().get(f'/opportunities/en', headers=headers)
         # print("res " , res)
@@ -110,7 +115,7 @@ class opportunityTestCase(unittest.TestCase):
     def test_one_opportunity_404(self):
         print('hello test_one_opportunity_404')
         headers = {
-            'Authorization': 'Bearer {}'.format(greeter_token)
+            'Authorization': 'Bearer {}'.format(seeker_token)
         }
         res = self.client().get(f'/opportunities/notfound', headers=headers)
         # print("res " , res)
@@ -125,7 +130,7 @@ class opportunityTestCase(unittest.TestCase):
     def test_create_opportunity_ok(self):
         print('hello test_create_opportunity_ok')
         headers = {
-            'Authorization': 'Bearer {}'.format(admin_token)
+            'Authorization': 'Bearer {}'.format(recruiter_token)
         }
         res = self.client().post(f'/opportunities', headers=headers,
                                  json=dict(field="french", opportunity="bonjour"))
@@ -138,10 +143,10 @@ class opportunityTestCase(unittest.TestCase):
     def test_create_opportunity_403(self):
         print('hello test_create_opportunity_40')
         headers = {
-            'Authorization': 'Bearer {}'.format(greeter_token)
+            'Authorization': 'Bearer {}'.format(seeker_token)
         }
         res = self.client().post(f'/opportunities', headers=headers,
-                                 json=dict(field="french", opportunity="bonjour"))
+                                 json=dict(field="trainer", opportunity="prject management"))
 
         # print("new_opportunity",new_opportunity)
         self.assertEqual(res.status_code, 403)

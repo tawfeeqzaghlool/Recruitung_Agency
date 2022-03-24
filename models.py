@@ -1,9 +1,9 @@
 import os
-from sqlalchemy import Column, String, create_engine, Integer
+from sqlalchemy import Column, String, create_engine, Integer, ForeignKey
 from flask_sqlalchemy import SQLAlchemy
 import json
 
-database_path = os.environ['DB_URL']
+database_path = os.environ['DATABASE_URL']
 if database_path.startswith("postgres://"):
     database_path = database_path.replace("postgres://", "postgresql://", 1)
 
@@ -24,20 +24,23 @@ def setup_db(app, database_path=database_path):
 
 
 '''
-Seeker
-Have title and release year
+Seekers
+Have tablename, includes primary key, job title, years of experience, email address as an attributes
 '''
-class seeker(db.Model):
+class Seekers(db.Model):
     __tablename__ = 'Seekers'
 
     id = Column(Integer, primary_key=True)
-    job_title = Column(String)
+    seeker_name = Column(String(100), nullable=False)
+    job_title = Column(String(50))
     years_ex = Column(Integer)
-    email = Column(String)
+    email = Column(String, unique=True, nullable=False)
 
-    def __init__(self, seeker, job_title):
-        self.seeker = seeker
+    def __init__(self, seeker_name, job_title, years_ex, email):
+        self.seeker_name = seeker_name
         self.job_title = job_title
+        self.years_ex = years_ex
+        self.email = email
     def update(self):
         db.session.commit()
     def insert(self):
@@ -48,24 +51,28 @@ class seeker(db.Model):
         db.session.commit()
     def format(self):
         return {
-            'seeker': self.job_title,
+            'id': self.id,
+            'seeker_name': self.seeker_name,
             'job_title': self.job_title,
+            'years_ex': self.years_ex,
+            'email': self.email
         }
 '''
-opportunity
+Jobs
+Have tablename, includes primary keys, title, fields as an attributes
 '''
 
 
-class opportunity(db.Model):
-    __tablename__ = 'opportunities'
+class Jobs(db.Model):
+    __tablename__ = 'Jobs'
 
     id = Column(Integer, primary_key=True)
-    field = Column(String)
-    opportunity = Column(String)
+    title = Column(String, nullable=False)
+    field = Column(String, nullable=False)
 
-    def __init__(self, field, opportunity):
+    def __init__(self, field, title):
         self.field = field
-        self.opportunity = opportunity
+        self.title = title
     def update(self):
         db.session.commit()
     def insert(self):
@@ -76,6 +83,7 @@ class opportunity(db.Model):
         db.session.commit()
     def format(self):
         return {
+            'id': self.id,
             'field': self.field,
-            'opportunity': self.opportunity,
+            'title': self.title,
         }
